@@ -47,7 +47,8 @@ else
     cd Schedule
     touch Monday, Tuesday, Wednesday, Thursday, Friday
     cd ..
-    echo "There were no schedule files found, or I do not have permission to access them. Here generated some empty for you."
+    echo "There were no schedule files found, or I do not have permission to access them. Here generated some empty for you. Go fill them up and then come back."
+    exit 0
 fi
 
 #Program starting
