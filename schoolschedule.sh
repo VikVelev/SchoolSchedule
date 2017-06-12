@@ -43,6 +43,7 @@ while true; do #printing, looping
         if [ `date +%H:%M` < ${brakes_end[$currenthour - 1]} ]; then
             xcowsay "В междучасие си! Следващият ти час е ${hours[$currenthour]}. В стая ${rooms[currenthour +  1]}." --at=50,50 -t 60 &        
             echo "В междучасие си! Следващият ти час е ${hours[$currenthour]}. В стая ${rooms[currenthour +  1]}."
+            sleep 60 #check every minute if you're out of the междучасие
         else
             xcowsay "Текущ час: ${hours[$currenthour]}. $(($currenthour + 1)) подред. В стая ${rooms[$currenthour + 1]}." --at=50,50 -t 60 &
             echo "Текущ час: ${hours[$currenthour]}. $(($currenthour + 1)) подред. В стая ${rooms[$currenthour + 1]}."
