@@ -2,7 +2,7 @@
 
 #Initializing
 alias say='xcowsay' #add arguments here
-file="/home/mrtroll/Bash_Training/bashhelloworld.sh" #should be csv, external data sorce not implemented yet
+file="/home/mrtroll/Bash_Training/bashhelloworld.sh" #should be csv, external data source not implemented yet
 now=`date +%s` #storing the hour when this is opened, for some reason
 #hardcoded db
 #gotta add the whole week
