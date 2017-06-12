@@ -2,10 +2,10 @@
 
 #Initializing
 file_Mon="Schedule/Monday"
-file_Tue="$PWD/SchoolSchedule/Schedule/Tuesday"
-file_Wed="$PWD/SchoolSchedule/Schedule/Wednesday"
-file_Thur="$PWD/SchoolSchedule/Schedule/Thursday"
-file_Fri="$PWD/SchoolSchedule/Schedule/Friday"
+file_Tue="Schedule/Tuesday"
+file_Wed="Schedule/Wednesday"
+file_Thur="Schedule/Thursday"
+file_Fri="Schedule/Friday"
 files=($file_Mon $file_Tue $file_Wed $file_Thur $file_Fri)
 
 hours_hrs=("07:30" "08:10" "09:00" "9:50" "10:50" "11:40" "12:30" "13:15" "14:10" "00:00")
