@@ -16,9 +16,6 @@ currenthour=0
 
 hash xcowsay 2>/dev/null || { echo >&2 "This requires xcowsay but it's not installed. Install it and try again. Aborting."; exit 1; }
 
-# everymin=50
-# echo "Minutes?"
-# read everymin
 if [ -r $file -a -f $file ]; then
      echo "Reading from this $file.."
      #planning to read the schedule from a file, atm does nothing
@@ -41,14 +38,7 @@ done
 xcowsay "Текущ час: ${hours[$currenthour + 1]}, в стая ${rooms[$currenthour + 1]}." --at=50,50 -t 60 &
 echo "Текущ час: ${hours[$currenthour + 1]}, в стая ${rooms[$currenthour + 1]}."
 
-# if [ $everymin -eq 0 -o $everymin -eq 1 ]; then
-#     echo "Cannot be $everymin, using the default value(5)."
-#     everymin=5
-#     sleep 1
-# fi
-
 while true; do #printing, looping
-    #if [ $(( ($(date +%s) / 60) % $everymin )) -eq 0 ]; then
     if [ `date +%H:%M` = ${hours_hrs[$currenthour + 1]} ]; then
         if [ `date +%H:%M` < ${brakes_end[$currenthour - 1]} ]; then
             xcowsay "В междучасие си! Следващият ти час е ${hours[$currenthour]}. В стая ${rooms[currenthour +  1]}." --at=50,50 -t 60 &        
