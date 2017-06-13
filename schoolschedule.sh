@@ -67,6 +67,7 @@ while true; do #printing, looping#TODO LOGICS
     if [ `date +%k%M` -lt ${brakes_end[currenthour - 1]} ]; then
         xcowsay  "В междучасие си! Следващият ти час е ${schedule[$currenthour]}, в стая ${schedule[$currenthour + ((${#schedule[@]}/2)) + 1]}." --at=50,50 -t 60 --image=$cowsay_img &        
         echo "В междучасие си! Следващият ти час е ${schedule[$currenthour]}, в стая ${schedule[$currenthour + ((${#schedule[@]}/2)) + 1]}."
+        sleep 60
         #check every minute if you're out of the междучасие
     else
         xcowsay "В час по ${schedule[$currenthour]} си." --at=50,50 -t 60 --image=$cowsay_img &
