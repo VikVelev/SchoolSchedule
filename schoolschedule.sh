@@ -24,25 +24,6 @@ state="Не в час"
 
 hash xcowsay 2>/dev/null || { echo >&2 "This requires xcowsay but it's not installed. Install it and try again. Aborting."; exit 1; }
 
-#Preparation, Loading.
-counter=0
-while [ $counter -le 7 ]; do #намира сегашния час и NE BACHKA # REWRITE
-    if [ `date +%k%M` -gt ${hours_hrs[counter]} -a `date +%k%M` -lt ${hours_hrs[counter+1]} ]; then 
-        currenthour=$counter
-        if [ `date +%k%M` -lt ${brakes_end[currenthour - 1]} -a `date +%k%M` = ${hours_hrs[currenthour + 1]} ]; then
-            state="Не в час"
-        else
-            state="В час"
-        fi            
-    fi
-    let  counter+=1
-    if [ $currenthour -eq 7 ]; then
-        xcowsay "Не си в даскало." --at=50,50 -t 60 --image=$cowsay_img --cow-size=med &
-        echo "Not in school right now."
-        exit 0
-    fi
-done
-
 if [ -f ${files[currentday]} -a -r ${files[currentday]} ]; then #Проверява дали има и дали може да чете файловете за програмата
     echo "Reading from ${files[currentday]}.."
     linecounter=0
@@ -60,9 +41,27 @@ else
     exit 0
 fi
 
-#Program starting
-xcowsay "Текущ/Следващ час: ${schedule[$currenthour]}, в стая ${schedule[$currenthour + ((${#schedule[@]}/2)) + 1]}." --at=50,50 -t 60 --image=$cowsay_img
-echo  "Текущ час: ${schedule[$currenthour]}, в стая ${schedule[$currenthour + ((${#schedule[@]}/2)) + 1]}."
+schedule_length=${#schedule[@]}
+(( schedule_length = schedule_length / 2 ))
+
+#Preparation, Loading.
+counter=0
+while [ $counter -le $schedule_length ]; do #намира сегашния час и NE BACHKA # REWRITE
+    if [ `date +%k%M` -gt ${hours_hrs[counter]} -a `date +%k%M` -lt ${hours_hrs[counter+1]} ]; then 
+        currenthour=$counter
+        if [ `date +%k%M` -lt ${brakes_end[currenthour - 1]} -a `date +%k%M` != ${hours_hrs[currenthour + 1]} ]; then
+            state="Не в час"
+        else
+            state="В час"
+        fi            
+    fi
+    let  counter+=1
+    if [ $currenthour -eq $schedule_length ]; then
+        xcowsay "Не си в даскало." --at=50,50 -t 60 --image=$cowsay_img --cow-size=med &
+        echo "Not in school right now."
+        exit 0
+    fi
+done
 
 while true; do #printing, looping#TODO LOGICS
     if [ `date +%k%M` -lt ${brakes_end[currenthour - 1]} ]; then
@@ -70,12 +69,12 @@ while true; do #printing, looping#TODO LOGICS
         echo "В междучасие си! Следващият ти час е ${schedule[$currenthour]}, в стая ${schedule[$currenthour + ((${#schedule[@]}/2)) + 1]}."
         #check every minute if you're out of the междучасие
     else
-        xcowsay "В час си!" --at=50,50 -t 60 --image=$cowsay_img &
-        echo "В час си."
+        xcowsay "В час по ${schedule[$currenthour]} си." --at=50,50 -t 60 --image=$cowsay_img &
+        echo "В час по ${schedule[$currenthour]} си."
         sleep 60
     fi
 
-    if [ `date +%H:%M` = ${hours_hrs[$currenthour + 1]} ]; then   
+    if [ `date +%k%M` = ${hours_hrs[$currenthour + 1]} ]; then   
         xcowsay "Текущ час: ${schedule[$currenthour]}. $(($currenthour + 1)) подред. В стая ${schedule[$currenthour + ((${#schedule[@]}/2)) + 1]}." --at=50,50 -t 60 --image=$cowsay_img &
         echo "Текущ час: ${hours[$currenthour]}. $(($currenthour + 1)) подред. В стая ${schedule[$currenthour + ((${#schedule[@]}/2)) + 1]}."
         let currenthour+=1
