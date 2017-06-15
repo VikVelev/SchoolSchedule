@@ -1,7 +1,9 @@
 #!/bin/bash
 
 #Initializing
-cowsay_img="Images/Main.png"
+#cowsay_img="Images/Main.png"
+cowsay_img="Images/Hitler.png"
+
 #TODO Add different images for each alert.
 
 file_Mon="Schedule/Monday"
