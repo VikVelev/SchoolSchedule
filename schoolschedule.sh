@@ -50,25 +50,21 @@ while [ $counter -le $schedule_length ]; do
 
     if [ `date +%k%M` -gt ${hours_hrs[counter]} -a `date +%k%M` -lt ${hours_hrs[counter+1]} ]; then 
         currenthour=$counter
-        if [ `date +%k%M` -lt ${brakes_end[currenthour - 1]} -a `date +%k%M` != ${hours_hrs[currenthour + 1]} ]; then
-            state="Не в час"
-        else
-            state="В час"
-            xcowsay "В час по ${schedule[$currenthour]} си." --at=50,50 -t 60 --image=$cowsay_img &
-        fi            
-    fi
-
-    if [ $counter -eq $schedule_length ]; then
+        state="В час"
+        xcowsay "В час по ${schedule[$currenthour]} си. Стая ${schedule[$currenthour + ((${#schedule[@]}/2))]}" --at=50,50 -t 60 --image=$cowsay_img &
+        break
+    elif [ $counter -eq $schedule_length ]; then
         xcowsay "Не си в даскало." --at=50,50 -t 60 --image=$cowsay_img --cow-size=med &
-        echo "Not in school right now."
+        echo "Не си в даскало."
         exit 0
     fi
+
     let  counter+=1
 done
 
-while true; do #printing, looping#TODO LOGICS
+while true; do #printing, looping
     if [ `date +%k%M` -lt ${brakes_end[currenthour - 1]} ]; then
-        if [ $currenthour -gt schedule_length]; then
+        if [ $currenthour -gt $schedule_length ]; then
             xcowsay  "Даскалото свърши!" --at=50,50 -t 60 --image=$cowsay_img &        
             echo "Даскалото свърши!"
             exit 0              
@@ -77,15 +73,13 @@ while true; do #printing, looping#TODO LOGICS
             echo "В междучасие си! Следващият ти час е ${schedule[$currenthour]}, в стая ${schedule[$currenthour + ((${#schedule[@]}/2)) + 1]}."
             sleep 60
         fi
-        #check every minute if you're out of the междучасие
     else
         echo "В час по ${schedule[$currenthour]} си."
         sleep 60
     fi
     if [ `date +%k%M` = ${hours_hrs[$currenthour + 1]} ]; then   
-        xcowsay "Текущ час: ${schedule[$currenthour]}. $(($currenthour + 1)) подред. В стая ${schedule[$currenthour + ((${#schedule[@]}/2)) + 1]}." --at=50,50 -t 60 --image=$cowsay_img &
-        echo "Текущ час: ${hours[$currenthour]}. $(($currenthour + 1)) подред. В стая ${schedule[$currenthour + ((${#schedule[@]}/2)) + 1]}."
+        xcowsay "Следващ час: ${schedule[$currenthour+1]}. $(($currenthour + 1)) подред. В стая ${schedule[$currenthour + ((${#schedule[@]}/2)) + 1]}." --at=50,50 -t 60 --image=$cowsay_img &
+        echo "Следващ час: ${schedule[$currenthour+1]}. $(($currenthour + 1)) подред. В стая ${schedule[$currenthour + ((${#schedule[@]}/2)) + 1]}."
         let currenthour+=1
-        sleep 60 #cheking every minute
     fi
 done
