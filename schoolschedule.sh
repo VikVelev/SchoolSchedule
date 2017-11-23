@@ -16,7 +16,7 @@ brakes_end=(820 910 1010 1100 1150 1235 1330)
 
 schedule=( )
 currenthour=0
-currentday=`date +%u`
+currentday=$(date +%u)
 
 state="Не в час"
 
@@ -48,7 +48,7 @@ schedule_length=${#schedule[@]}
 counter=0
 while [ $counter -le $schedule_length ]; do 
 
-    if [ `date +%k%M` -gt ${hours_hrs[counter]} -a `date +%k%M` -lt ${hours_hrs[counter+1]} ]; then 
+    if [ $(date +%k%M) -gt ${hours_hrs[counter]} -a $(date +%k%M) -lt ${hours_hrs[counter+1]} ]; then 
         currenthour=$counter
         state="В час"
         xcowsay "В час по ${schedule[$currenthour]} си. Стая ${schedule[$currenthour + ((${#schedule[@]}/2))]}" --at=50,50 -t 60 --image=$cowsay_img &
@@ -63,7 +63,7 @@ while [ $counter -le $schedule_length ]; do
 done
 
 while true; do #printing, looping
-    if [ `date +%k%M` -lt ${brakes_end[currenthour - 1]} ]; then
+    if [ $(date +%k%M) -lt ${brakes_end[currenthour - 1]} ]; then
         if [ $currenthour -gt $schedule_length ]; then
             xcowsay  "Даскалото свърши!" --at=50,50 -t 60 --image=$cowsay_img &        
             echo "Даскалото свърши!"
@@ -77,7 +77,7 @@ while true; do #printing, looping
         echo "В час по ${schedule[$currenthour]} си."
         sleep 60
     fi
-    if [ `date +%k%M` = ${hours_hrs[$currenthour + 1]} ]; then   
+    if [ $(date +%k%M) = ${hours_hrs[$currenthour + 1]} ]; then   
         xcowsay "Следващ час: ${schedule[$currenthour+1]}. $(($currenthour + 1)) подред. В стая ${schedule[$currenthour + ((${#schedule[@]}/2)) + 1]}." --at=50,50 -t 60 --image=$cowsay_img &
         echo "Следващ час: ${schedule[$currenthour+1]}. $(($currenthour + 1)) подред. В стая ${schedule[$currenthour + ((${#schedule[@]}/2)) + 1]}."
         let currenthour+=1
